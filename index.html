@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Xin Lỗi :((</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #ffe6f0, #e0f7ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        #countdown-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff99cc, #66ccff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #fff;
+            font-size: 80px;
+            font-weight: 700;
+            opacity: 1;
+            transition: opacity 0.8s ease;
+            overflow: hidden;
+        }
+        #countdown-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #countdown {
+            animation: zoomIn 1s ease forwards;
+            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
+        }
+        @keyframes zoomIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .intro-heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            transform: rotate(-45deg);
+            animation: introFall 3s linear infinite;
+            z-index: 1001;
+        }
+        .intro-heart:before,
+        .intro-heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            position: absolute;
+        }
+        .intro-heart:before { top: -10px; left: 0; }
+        .intro-heart:after { left: 10px; top: 0; }
+        @keyframes introFall {
+            0% { transform: translateY(-100vh) rotate(-45deg) scale(1); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(-45deg) scale(0.6); opacity: 0; }
+        }
+        .intro-star {
+            position: absolute;
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.7;
+            animation: introTwinkle 2s infinite;
+            z-index: 1001;
+        }
+        @keyframes introTwinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .container {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 60px rgba(255, 153, 204, 0.3);
+            max-width: 800px;
+            width: 90%;
+            border: 4px dashed #ffccdd;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease forwards;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        h1 {
+            color: #ff6699;
+            font-size: 48px;
+            font-weight: 700;
+            margin: 20px 0 30px;
+            text-shadow: 2px 2px 10px rgba(255, 102, 153, 0.3);
+            animation: wiggle 2s infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        .letter {
+            color: #333;
+            font-size: 24px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: left;
+            padding: 0 20px;
+        }
+        .letter p {
+            margin: 20px 0;
+            background: rgba(255, 230, 240, 0.7);
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 153, 204, 0.2);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+        }
+        .letter p.visible {
+            opacity: 1;
+            animation: slideIn 0.8s ease forwards;
+        }
+        .letter p:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 153, 204, 0.3);
+        }
+        .letter p img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border-radius: 12px;
+            transition: opacity 0.5s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        button {
+            background: linear-gradient(45deg, #ff6699, #ffccdd);
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 102, 153, 0.4);
+            opacity: 0;
+            animation: bounce 1.5s infinite;
+        }
+        button.visible {
+            opacity: 1;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 102, 153, 0.6);
+        }
+        .heart {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #ff99cc;
+            transform: rotate(-45deg);
+            animation: fall 4s linear infinite;
+            opacity: 0.7;
+            z-index: 0;
+        }
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 25px;
+            height: 25px;
+            background: #ff99cc;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart:before { top: -12px; left: 0; }
+        .heart:after { left: 12px; top: 0; }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(-45deg) scale(1); opacity: 0.7; }
+            100% { transform: translateY(100vh) rotate(-45deg) scale(0.5); opacity: 0; }
+        }
+        .bubble {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 204, 217, 0.4);
+            border-radius: 50%;
+            animation: float 6s infinite;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+        .star {
+            position: absolute;
+            font-size: 25px;
+            color: #ffeb3b;
+            opacity: 0.6;
+            animation: twinkle 3s infinite;
+            z-index: 0;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .cute-emoji {
+            position: absolute;
+            font-size: 35px;
+            opacity: 0.7;
+            animation: floatAndFade 5s linear infinite;
+            z-index: 0;
+        }
+        @keyframes floatAndFade {
+            0% { transform: translateY(100vh) scale(1); opacity: 0.7; }
+            50% { transform: translateY(50vh) scale(1.3); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 0; }
+        }
+        #fullscreen-video {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2000;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown-screen">
+        <span id="countdown">Xin chào</span>
+    </div>
+    <div class="container" id="letterContainer">
+        <h1 id="title">Thư Xin Lỗi Bạn Thương</h1>
+        <div class="letter" id="letter">
+            <p><img src="5.gif" alt="Heart">Hôm nay do t chán quá nên t đã làm nhiều điều không tốt, nhiều điều thiếu suy nghĩ!</p>
+            <p><img src="2.gif" alt="Sad">T lỡ vô tình làm m không dược vui, làm m khó chịu.</p>
+            <p><img src="1.gif" alt="Promise">Nên cho t gửi lời xin lỗi tới m nha, mong m rộng lượng tha lỗi</p>
+            <p><img src="4.gif" alt="Cute">T sẽ nhớ lần sau t ko thế nữa :))</p>
+        </div>
+        <button id="forgiveButton" onclick="showMessage()">Em tha thứ cho anh không nè?</button>
+        <p id="message" style="display: none; color: #ff6699; font-size: 24px; font-weight: 700; margin-top: 30px;"></p>
+    </div>
+    <audio id="backgroundMusic" loop muted>
+        <source src="mu.mp3" type="audio/mp3">
+        Trình duyệt của bạn không hỗ trợ âm thanh HTML5.
+    </audio>
+    <video id="fullscreen-video" loop muted>
+        <source src="video.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ video HTML5.
+    </video>
+
+    <script>
+        document.getElementById('letterContainer').style.display = 'none';
+        const audio = document.getElementById('backgroundMusic');
+        const countdownScreen = document.getElementById('countdown-screen');
+        const countdown = document.getElementById('countdown');
+        const video = document.getElementById('fullscreen-video');
+
+        // Phát nhạc ngay khi trang tải
+        audio.play()
+            .then(() => {
+                console.log("Nhạc bắt đầu phát từ đầu!");
+            })
+            .catch(error => {
+                console.log("Lỗi phát nhạc tự động: ", error);
+                // Bật tiếng sau khi người dùng nhấp chuột
+                document.addEventListener('click', function unmute() {
+                    audio.muted = false;
+                    audio.play();
+                    document.removeEventListener('click', unmute);
+                });
+            });
+
+        const countdownText = ["Xin chào", "bạn cute trước màn hình", "nhaaa :))"];
+        let count = 0;
+
+        countdown.textContent = countdownText[count];
+
+        const countdownInterval = setInterval(() => {
+            count++;
+            if (count < countdownText.length) {
+                countdown.style.animation = 'none';
+                void countdown.offsetWidth;
+                countdown.textContent = countdownText[count];
+                countdown.style.animation = 'zoomIn 1s ease forwards';
+            } else {
+                clearInterval(countdownInterval);
+                countdownScreen.classList.add('hidden');
+                startLetter();
+            }
+        }, 1000);
+
+        function createIntroHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('intro-heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 2 + 's';
+            countdownScreen.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+        setInterval(createIntroHeart, 400);
+
+        function createIntroStar() {
+            const star = document.createElement('div');
+            star.classList.add('intro-star');
+            star.textContent = '✨';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            countdownScreen.appendChild(star);
+            setTimeout(() => star.remove(), 3000);
+        }
+        setInterval(createIntroStar, 600);
+
+        function startLetter() {
+            const container = document.getElementById('letterContainer');
+            const title = document.getElementById('title');
+            const lines = document.querySelectorAll('.letter p');
+            const gifs = document.querySelectorAll('.letter p img');
+            const forgiveButton = document.getElementById('forgiveButton');
+
+            container.style.display = 'block';
+            title.style.opacity = '1';
+
+            let delay = 500;
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.add('visible');
+                    gifs[index].style.opacity = '1';
+                }, delay);
+                delay += 1000;
+            });
+
+            setTimeout(() => {
+                forgiveButton.classList.add('visible');
+            }, delay);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        setInterval(createHeart, 300);
+
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.style.left = Math.random() * 100 + 'vw';
+            bubble.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.body.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 6000);
+        }
+        setInterval(createBubble, 600);
+
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.textContent = '⭐';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 5000);
+        }
+        setInterval(createStar, 400);
+
+        const emojis = ['💕', '🧸', '🌸', '💖', '🐾'];
+        function createCuteEmoji() {
+            const emoji = document.createElement('div');
+            emoji.classList.add('cute-emoji');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 6000);
+        }
+        setInterval(createCuteEmoji, 500);
+
+        function showMessage() {
+            const message = document.getElementById('message');
+            const letterContainer = document.getElementById('letterContainer');
+            message.style.display = 'block';
+            message.innerText = 'kkk love love, cảm ơn m nha hahahha 💕';
+
+            setTimeout(() => {
+                letterContainer.style.display = 'none';
+                video.style.display = 'block';
+                video.play().catch(error => console.log("Lỗi phát video: ", error));
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
